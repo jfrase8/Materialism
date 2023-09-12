@@ -1,0 +1,58 @@
+body {
+}
+
+.gameBoard {
+    border: 10px solid black;
+    width: 450px;
+    height: 450px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.square {
+    float: left;
+    width: 30px;
+    height: 30px;
+    text-decoration-color: red;
+}
+
+.optionWindow {
+    border: 4px solid black;
+    width: 70px;
+    position: absolute;
+    left: 10%;
+    transform: translate(-10%);
+}
+
+.option {
+    text-align: center;
+    padding: 10px 0;
+    font-size: 50px;
+}
+
+div[data-piece="Diamond"] {
+    background-color: cornflowerblue;
+}
+div[data-piece='Emerald'] {
+    background-color: lime;
+}
+div[data-piece="Ruby"] {
+    background-color: red;
+}
+div[data-piece="Steel"] {
+    background-color: lightslategrey;
+}
+div[data-piece="Rock"] {
+    background-color: burlywood;
+}
+div[data-piece="Clay"] {
+    background-color: brown;
+}
+div[data-piece="Glass"] {
+    background-image: linear-gradient(white, cadetblue);
+}
+div[data-piece="Paper"] {
+    background-color: white;
+}
