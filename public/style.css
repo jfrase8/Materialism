@@ -15,7 +15,7 @@ body {
     float: left;
     width: 30px;
     height: 30px;
-    text-decoration-color: red;
+    background-size: 30px;
 }
 
 .optionWindow {
@@ -33,7 +33,7 @@ body {
 }
 
 div[data-piece="Diamond"] {
-    background-color: cornflowerblue;
+    background-color: blue;
 }
 div[data-piece='Emerald'] {
     background-color: lime;

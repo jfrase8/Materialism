@@ -32,6 +32,9 @@
     <Content Include="public\index.html">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="public\PieceAbilities.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="server.js" />
     <Content Include="package.json" />
     <Content Include="public\style.css">
@@ -41,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="public\" />
+    <Folder Include="public\Sprites\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
   <ProjectExtensions>
