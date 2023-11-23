@@ -1,4 +1,79 @@
+@font-face {
+    font-family: titleFont;
+    src: url("Fonts/BebasNeue-Regular.ttf");
+}
+
 body {
+    background-color: #242424;
+}
+
+.title {
+    user-select: none;
+    font-size: 200px;
+    font-family: titleFont;
+    text-align: center;
+    animation-name: titleAnim;
+    animation-duration: 2s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(to right, rgb(0, 179, 250), rgb(0, 179, 230), rgb(0, 179, 210), rgb(0, 179, 190), rgb(0, 179, 170), rgb(0, 179, 150), rgb(0, 179, 130), rgb(0, 179, 110), rgb(0, 179, 90), rgb(0, 179, 70));
+}
+.button{
+    width: 400px;
+    height: 120px;
+    margin: auto;
+    background-color: lightgray;
+    border: 4px solid black;
+}
+    .button:hover {
+        width: 400px;
+        height: 120px;
+        margin: auto;
+        background-color: dimgray;
+        border: 4px solid black;
+        user-select: none;
+    }
+.buttonText {
+    font-size: 100px;
+    font-family: titleFont;
+    text-align: center;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(gray, rgb(0, 179, 250));
+    position: relative;
+}
+.tutorialTitle {
+    font-size: 50px;
+    font-family: titleFont;
+    text-align: center;
+    background-color: aquamarine;
+    position: absolute;
+    width: 2500px;
+}
+.subTitle {
+    width: 200px;
+    height: 125px;
+    text-align: center;
+    font-size: 100px;
+    font-family: titleFont;
+    float: left;
+    background-color: cadetblue;
+}
+.textBox {
+    height: 80px;
+    width: 2600px;
+    background-color: darkcyan;
+    top: 100px;
+    position: absolute;
+}
+
+.paragraph {
+    font-size: 20px;
+    text-align: right;
+    margin-right: 1100px;
+    color: black;
 }
 
 .gameBoard {
@@ -16,43 +91,179 @@ body {
     width: 30px;
     height: 30px;
     background-size: 30px;
+    filter: brightness(100%);
 }
 
 .optionWindow {
-    border: 4px solid black;
-    width: 70px;
+    width: 80px;
     position: absolute;
     left: 10%;
+    top: 5%;
     transform: translate(-10%);
 }
 
 .option {
+    height: 80px;
+    line-height: 80px;
     text-align: center;
-    padding: 10px 0;
     font-size: 50px;
+    border: 4px transparent;
+    color: transparent;
+    overflow: hidden;
+    white-space: nowrap;
+    animation-name: null;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    user-select: none;
+}
+
+.upgrades {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+}
+
+.upgrade {
+    border: 10px solid black;
+    float: left;
+    width: 150px;
+    height: 150px;
+    background-image: linear-gradient(yellow, white);
+    background-size: 150px;
+}
+
+.screenCover {
+    border: 5px solid black;
+    background-color: dimgray;
+    width: 800px;
+    height: 665px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-size: 40px;
+    display: none;
 }
 
 div[data-piece="Diamond"] {
-    background-color: blue;
+    background-image: linear-gradient(to right, lightblue, blue);
 }
+
 div[data-piece='Emerald'] {
-    background-color: lime;
+    background-image: linear-gradient(to right, lightgreen, lime);
 }
+
 div[data-piece="Ruby"] {
-    background-color: red;
+    background-image: linear-gradient(to right, pink, red);
 }
+
 div[data-piece="Steel"] {
-    background-color: lightslategrey;
+    background-image: linear-gradient(to right, lightgray, lightslategray);
 }
+
 div[data-piece="Rock"] {
-    background-color: burlywood;
+    background-image: linear-gradient(to right, burlywood, saddlebrown);
 }
+
 div[data-piece="Clay"] {
-    background-color: brown;
+    background-image: linear-gradient(to right, orange, maroon);
 }
+
 div[data-piece="Glass"] {
-    background-image: linear-gradient(white, cadetblue);
+    background-image: linear-gradient(to right, white, cadetblue);
 }
+
 div[data-piece="Paper"] {
-    background-color: white;
+    background-image: linear-gradient(to right, white, white);
+}
+
+
+/*Animations*/
+@keyframes titleAnim {
+    0% {
+        background-image: linear-gradient(to right, rgb(0, 179, 250), rgb(0, 179, 230), rgb(0, 179, 210),
+        rgb(0, 179, 190), rgb(0, 179, 170), rgb(0, 179, 150), rgb(0, 179, 130), rgb(0, 179, 110), 
+        rgb(0, 179, 90), rgb(0, 179, 70));
+    }
+    60% {
+        background-image: linear-gradient(to right, rgb(0, 179, 230), rgb(0, 179, 210), rgb(0, 179, 190), 
+        rgb(0, 179, 170), rgb(0, 179, 150), rgb(0, 179, 130), rgb(0, 179, 110), rgb(0, 179, 90), 
+        rgb(0, 179, 70), rgb(0, 179, 90));
+    }
+    65% {
+        background-image: linear-gradient(to right, rgb(0, 179, 210), rgb(0, 179, 190), rgb(0, 179, 170), 
+        rgb(0, 179, 150), rgb(0, 179, 130), rgb(0, 179, 110), rgb(0, 179, 90), rgb(0, 179, 70), 
+        rgb(0, 179, 90), rgb(0, 179, 110));
+    }
+    70% {
+        background-image: linear-gradient(to right, rgb(0, 179, 190), rgb(0, 179, 170), rgb(0, 179, 150), 
+        rgb(0, 179, 130), rgb(0, 179, 110), rgb(0, 179, 90), rgb(0, 179, 70), rgb(0, 179, 90), 
+        rgb(0, 179, 110), rgb(0, 179, 130));
+    }
+    75% {
+        background-image: linear-gradient(to right, rgb(0, 179, 170), rgb(0, 179, 150), rgb(0, 179, 130), 
+        rgb(0, 179, 110), rgb(0, 179, 90), rgb(0, 179, 70), rgb(0, 179, 90), rgb(0, 179, 110), 
+        rgb(0, 179, 130), rgb(0, 179, 150));
+    }
+    80% {
+        background-image: linear-gradient(to right, rgb(0, 179, 150), rgb(0, 179, 130), rgb(0, 179, 110), 
+        rgb(0, 179, 90), rgb(0, 179, 70), rgb(0, 179, 90), rgb(0, 179, 110), rgb(0, 179, 130), 
+        rgb(0, 179, 150), rgb(0, 179, 170));
+    }
+    85% {
+        background-image: linear-gradient(to right, rgb(0, 179, 130), rgb(0, 179, 110), rgb(0, 179, 90), 
+        rgb(0, 179, 70), rgb(0, 179, 90), rgb(0, 179, 110), rgb(0, 179, 130), rgb(0, 179, 150), 
+        rgb(0, 179, 170), rgb(0, 179, 190));
+    }
+    90% {
+        background-image: linear-gradient(to right, rgb(0, 179, 110), rgb(0, 179, 90), rgb(0, 179, 90), 
+        rgb(0, 179, 70), rgb(0, 179, 90), rgb(0, 179, 110), rgb(0, 179, 150), rgb(0, 179, 170), 
+        rgb(0, 179, 190), rgb(0, 179, 210));
+    }
+    95% {
+        background-image: linear-gradient(to right, rgb(0, 179, 90), rgb(0, 179, 70), rgb(0, 179, 90), 
+        rgb(0, 179, 110), rgb(0, 179, 130), rgb(0, 179, 150), rgb(0, 179, 170), rgb(0, 179, 190), 
+        rgb(0, 179, 210), rgb(0, 179, 230));
+    }
+    100% {
+        background-image: linear-gradient(to right, rgb(0, 179, 70), rgb(0, 179, 90), rgb(0, 179, 110), 
+        rgb(0, 179, 130), rgb(0, 179, 150), rgb(0, 179, 170), rgb(0, 179, 190), rgb(0, 179, 210), 
+        rgb(0, 179, 230), rgb(0, 179, 250));
+    }
+}
+
+@keyframes unveil {
+    0% {
+        width: 80px;
+        border: 4px solid transparent;
+    }
+
+    40% {
+        color: transparent;
+    }
+
+    100% {
+        width: 300px;
+        border: 4px solid black;
+        color: black;
+    }
+}
+
+@keyframes reveil {
+    0% {
+        width: 300px;
+        border: 4px black;
+        color: black;
+    }
+
+    20% {
+        color: transparent;
+    }
+
+    100% {
+        width: 80px;
+        border: 4px transparent;
+    }
 }

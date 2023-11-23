@@ -29,15 +29,27 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="public\GameBoard.js" />
+    <Content Include="public\game.html">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="public\index.html">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="public\PieceAbilities.js">
+    <Content Include="public\style.css">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="public\titlePage.js">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="public\tutorial.html">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="public\tutorialPage.js">
       <SubType>Code</SubType>
     </Content>
     <Content Include="server.js" />
     <Content Include="package.json" />
-    <Content Include="public\style.css">
+    <Content Include="public\gameStyle.css">
       <SubType>Code</SubType>
     </Content>
     <Content Include="README.md" />

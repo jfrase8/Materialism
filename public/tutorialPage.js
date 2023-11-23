@@ -168,12 +168,12 @@ function getPlayer(square)
         {
             return "w";
         }
-            
+
 
         if (piecesInfo[piece]["ImgB"] == square.style.backgroundImage)
         {
             return "b";
-        }  
+        }
     }
 }
 
@@ -262,7 +262,7 @@ function CreateSafeArea(player)
 
             square.style.backgroundImage = hidden;
         }
-        
+
         for (let piece of piecesList)
         {
             piecesInfo[piece]["CurrentCount"] = piecesInfo[piece]["OriginalCount"];
@@ -274,7 +274,8 @@ function CreateSafeArea(player)
 }
 
 // Cheat to place all pieces immediately
-document.addEventListener('keyup', event => {
+document.addEventListener('keyup', event =>
+{
     if (event.code === 'Space')
     {
         currentSelected = "Diamond";
@@ -350,7 +351,8 @@ document.addEventListener('keyup', event => {
 })
 
 
-function PlacePiece(square) {
+function PlacePiece(square)
+{
 
     let row = square.parentElement.dataset.row;
     let col = square.parentElement.parentElement.dataset.col;
@@ -399,14 +401,17 @@ function PlacePiece(square) {
 
     // Check if all pieces have been placed
     let count = 0;
-    for (let i = 0; i < turnPlayerPieces.length; i++) {
-        if (turnPlayerPieces[i].row != -1) {
+    for (let i = 0; i < turnPlayerPieces.length; i++)
+    {
+        if (turnPlayerPieces[i].row != -1)
+        {
             count++;
         }
 
     }
 
-    if (count == turnPlayerPieces.length && turn == "w") {
+    if (count == turnPlayerPieces.length && turn == "w")
+    {
         PhaseTwo();
     }
     else if (count == turnPlayerPieces.length && turn == "b")
@@ -414,9 +419,10 @@ function PlacePiece(square) {
         turn = "w";
         count = 0;
         CreateSafeArea(turn);
-        
+
     }
-    else {
+    else
+    {
         count = 0;
     }
 }
@@ -438,7 +444,7 @@ function ChangePieceCount(pieceName, direction)
         document.querySelector(`.option[data-piece="${pieceName}"]`).style.backgroundImage = "linear-gradient(black, black)";
         document.querySelector(`.option[data-piece="${pieceName}"]`).style.animationName = "reveil";
     }
-        
+
     else
         document.querySelector(`.option[data-piece="${pieceName}"]`).style.backgroundImage = piecesInfo[pieceName]["OptionImg"];
 }
@@ -553,7 +559,7 @@ function PhaseTwo()
     }
 }
 
- 
+
 function SquareClicked(square)
 {
     // Get the row and column of the square
@@ -562,7 +568,7 @@ function SquareClicked(square)
 
     // Get the turn player pieces
     let player = getPlayer(square);
-   
+
     if (currentSelected == null)
     {
         // Check that the clicked piece is the turn player's piece.
@@ -593,7 +599,7 @@ function SquareClicked(square)
             if (!replenishMode)
                 Unhighlight();
         }
-            
+
     }
 }
 
@@ -615,7 +621,7 @@ function SelectPiece(square, piece)
             if (cSquare.hasAttribute("data-safeArea_w") || cSquare.hasAttribute("data-safeArea_b"))
             {
                 inSafeArea = true;
-            }                
+            }
         }
     }
 
@@ -632,7 +638,7 @@ function SelectPiece(square, piece)
             let row = squares[j].parentElement.dataset.row;
 
             for (let k = 0; k < piecesInfo[currentSelected.name]["Movement"].length; k++)
-            {        
+            {
                 // Check if this side is restricted
                 let sideRestricted = false;
                 for (side of restrictSide)
@@ -648,7 +654,7 @@ function SelectPiece(square, piece)
                 if (row == Number(currentSelected.row) + (piecesInfo[currentSelected.name]["Movement"][k][0] * i) &&
                     col == Number(currentSelected.col) + (piecesInfo[currentSelected.name]["Movement"][k][1] * i))
                 {
-                    
+
                     // Check if the square to be highlighted is a piece
                     if (squares[j].style.backgroundImage != safeAreaImg &&
                         squares[j].style.backgroundImage != boardImg &&
@@ -714,7 +720,7 @@ function MovePiece(square)
     // Check if current selected piece can move to new square
     if (square.getAttribute("data-inRange"))
     {
-        
+
         // Remove piece from current square
         if (turn == "w" && currentSquare.hasAttribute("data-safeArea_w") ||
             turn == "b" && currentSquare.hasAttribute("data-safeArea_b"))
@@ -778,10 +784,10 @@ function MovePiece(square)
                                         if (squares[j].style.backgroundImage != upgradeImgActive)
                                             squares[j].style.backgroundImage = upgradeImgUnactive;
                                     }
-                                        
+
                                     else
                                         squares[j].style.backgroundImage = boardImg;
-                                }  
+                                }
                             }
                         }
                     }
