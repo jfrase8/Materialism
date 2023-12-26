@@ -9,12 +9,33 @@
 </head>
 <body>
     <div class="title">Materialism</div>
-    <div class="button" data-page="game"> 
-        <div class="buttonText" >Play</div>
+
+    <!--Play Button-->
+    <div class="button" data-page="game" onclick="Play()">
+        <div class="buttonText">Play</div>
+
+        <button onclick="CreateLobby(event)" class="lobbyButton">Create Lobby</button>
+        <button onclick="DisplayLobbies(event)" class="lobbyButton">Join Lobby</button>
+        <button onclick="Back(event)" class="lobbyButton">Back</button>
+
+
+        <div class="createLobby">
+            <div class="inputLine">
+                <label for="textInput">Lobby Name:</label>
+                <input type="text" id="textInput">
+                <button onclick="LobbyCreated()" class="submit">Submit</button>
+            </div>
+        </div>
+
+        <div class="joinLobby"></div>
+
     </div>
     <br>
-    <div class="button" data-page="tutorial">
+    <div class="button" data-page="tutorial" onclick="Tutorial()">
         <div class="buttonText">Tutorial</div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
+
 </body>
 </html>

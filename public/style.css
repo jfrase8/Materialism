@@ -20,21 +20,25 @@ body {
     -webkit-text-fill-color: transparent;
     background-image: linear-gradient(to right, rgb(0, 179, 250), rgb(0, 179, 230), rgb(0, 179, 210), rgb(0, 179, 190), rgb(0, 179, 170), rgb(0, 179, 150), rgb(0, 179, 130), rgb(0, 179, 110), rgb(0, 179, 90), rgb(0, 179, 70));
 }
+
 .button{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
     width: 400px;
     height: 120px;
     margin: auto;
     background-color: lightgray;
     border: 4px solid black;
 }
-    .button:hover {
-        width: 400px;
-        height: 120px;
-        margin: auto;
-        background-color: dimgray;
-        border: 4px solid black;
-        user-select: none;
-    }
+.button:hover {
+    width: 400px;
+    height: 120px;
+    margin: auto;
+    background-color: dimgray;
+    border: 4px solid black;
+    user-select: none;
+}
 .buttonText {
     font-size: 100px;
     font-family: titleFont;
@@ -42,8 +46,36 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-image: linear-gradient(gray, rgb(0, 179, 250));
-    position: relative;
 }
+
+.lobbyButton {
+    display: none;
+    background-color: lightgray;
+    border: 1px solid black;
+    flex: 1 0 33.3333333%;
+}
+.lobbyButton:hover {
+    background-color: dimgray;
+    border: 1px solid black;
+}
+
+.createLobby {
+    display: none;
+    background-color: gray;
+    flex: 1;
+}
+.inputLine {
+    margin-top: 6%;
+    text-align: center;
+}
+
+.joinLobby {
+    display: none;
+    flex: 1;
+}
+
+
+
 .tutorialTitle {
     font-size: 50px;
     font-family: titleFont;
@@ -68,6 +100,8 @@ body {
     top: 100px;
     position: absolute;
 }
+
+
 
 .paragraph {
     font-size: 20px;
