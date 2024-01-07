@@ -36,6 +36,9 @@
     <Content Include="public\index.html">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="public\socket.js">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="public\style.css">
       <SubType>Code</SubType>
     </Content>

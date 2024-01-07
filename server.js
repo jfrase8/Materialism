@@ -138,6 +138,11 @@ io.on("connection", (socket) =>
                 // Redirect clients to the game screen
                 for (const client of lobby.clients)
                     io.to(client).emit('redirect', '/game.html');
+
+                // Randomly choose who is white and black
+                const random = Math.round(Math.random());
+                console.log(random);
+                io.to(lobby.clients[random]).emit('whitePlayer');
             }
             else
             {
@@ -160,6 +165,14 @@ io.on("connection", (socket) =>
         io.to(socket.id).emit('redirect', '/index.html');
 
     });
+
+    // Handle refreshing lobbies
+    socket.on('refreshLobbies', (socketID) =>
+    {
+        console.log("refreshed");
+        const lobbies = lobbyManager.getAllLobbyNames();
+        io.to(socketID).emit("displayLobbies", lobbies);
+    })
 });
 
 server.listen(1337);

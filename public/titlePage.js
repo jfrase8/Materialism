@@ -1,5 +1,9 @@
 const socket = io();
 
+// Refresh lobbies on startup
+socket.emit('refreshLobbies', socket.id);
+
+
 const buttons = document.getElementsByClassName("button");
 
 const lobbyScreen = document.getElementsByClassName("lobbyButton");
@@ -41,7 +45,7 @@ socket.on('lobbyCreated', (newLobbyName) =>
 // Refreshes all currently displayed lobbies
 socket.on('displayLobbies', (lobbies) =>
 {
-
+    console.log("displayed lobbies");
     // Remove all current lobbies
     joinLobby.innerHTML = '';
 

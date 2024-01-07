@@ -1,3 +1,5 @@
+const socket = io();
+
 // Designate square types
 let squares = document.querySelectorAll(".square");
 let bSafeSquares = document.querySelectorAll("[data-safeArea_b]");
@@ -11,6 +13,9 @@ let safeAreaImg = 'url("Sprites/safe_area.png")';
 let boardImg = 'url("Sprites/bg1.png")';
 let hidden = 'url("Sprites/hidden.png")';
 
+// Gameboard container
+let gameboard = document.querySelector(".gameBoard");
+
 // Create Game Board
 for (let i = 0; i < squares.length; i++)
 {
@@ -22,6 +27,7 @@ for (square of upgradeSquares)
 }
 
 let turn = "b"; // value for whos turn it is
+let myTurn = true; // value for if it is this player's turn
 let replenishMode = false; // value for setting replenish mode on and off
 let upgradeScreen = false; // value for if the upgrade screen is currently showing
 
@@ -270,6 +276,9 @@ function CreateSafeArea(player)
             document.querySelector(`.option[data-piece="${piece}"]`).style.backgroundImage = piecesInfo[piece]["OptionImg"];
         }
         currentSelected = null;
+
+        // Set myTurn to its opposite
+        myTurn = !myTurn;
     }
 }
 
@@ -352,73 +361,81 @@ document.addEventListener('keyup', event => {
 
 function PlacePiece(square) {
 
-    let row = square.parentElement.dataset.row;
-    let col = square.parentElement.parentElement.dataset.col;
-
-    // Figure out which side is placing a piece
-    let player = square.hasAttribute("data-safeArea_w") ? "w" : "b";
-    let turnPlayerPieces = player == "w" ? playerPieces_w : playerPieces_b;
-
-    // Make sure that if there is already a piece on the square that gets taken away, dont place a new piece
-    let dontPlace = false;
-
-    // First check if the square clicked already has a piece
-    for (let i = 0; i < turnPlayerPieces.length; i++)
+    if (myTurn)
     {
-        // If a square has a piece already placed on it, return that piece to player
-        if (turnPlayerPieces[i].row == row && turnPlayerPieces[i].col == col)
+        let row = square.parentElement.dataset.row;
+        let col = square.parentElement.parentElement.dataset.col;
+
+        // Figure out which side is placing a piece
+        let player = square.hasAttribute("data-safeArea_w") ? "w" : "b";
+        let turnPlayerPieces = player == "w" ? playerPieces_w : playerPieces_b;
+
+        // Make sure that if there is already a piece on the square that gets taken away, dont place a new piece
+        let dontPlace = false;
+
+        // First check if the square clicked already has a piece
+        for (let i = 0; i < turnPlayerPieces.length; i++)
         {
-            turnPlayerPieces[i].row = -1;
-            turnPlayerPieces[i].col = -1;
-            turnPlayerPieces[i].active = false;
-            square.style.backgroundImage = "url(Sprites/safe_area.png)";
-            ChangePieceCount(turnPlayerPieces[i].name, 1);
-            dontPlace = true;
-            break;
-        }
-    }
-    if (!dontPlace)
-    {
-        for (piece of turnPlayerPieces)
-        {
-            // Place new piece
-            if (currentSelected == piece.name && piece.row == -1 && !piece.active)
+            // If a square has a piece already placed on it, return that piece to player
+            if (turnPlayerPieces[i].row == row && turnPlayerPieces[i].col == col)
             {
-                piece.row = row;
-                piece.col = col;
-                piece.active = true;
-
-                // Update the HTML gameboard
-                square.style.backgroundImage = turn == "b" ? piecesInfo[currentSelected]["ImgB"] : piecesInfo[currentSelected]["ImgW"];
-                ChangePieceCount(currentSelected, -1);
+                turnPlayerPieces[i].row = -1;
+                turnPlayerPieces[i].col = -1;
+                turnPlayerPieces[i].active = false;
+                square.style.backgroundImage = "url(Sprites/safe_area.png)";
+                ChangePieceCount(turnPlayerPieces[i].name, 1);
+                dontPlace = true;
                 break;
             }
         }
-    }
-    dontPlace = false;
+        if (!dontPlace)
+        {
+            for (piece of turnPlayerPieces)
+            {
+                // Place new piece
+                if (currentSelected == piece.name && piece.row == -1 && !piece.active)
+                {
+                    piece.row = row;
+                    piece.col = col;
+                    piece.active = true;
 
-    // Check if all pieces have been placed
-    let count = 0;
-    for (let i = 0; i < turnPlayerPieces.length; i++) {
-        if (turnPlayerPieces[i].row != -1) {
-            count++;
+                    // Update the HTML gameboard
+                    square.style.backgroundImage = turn == "b" ? piecesInfo[currentSelected]["ImgB"] : piecesInfo[currentSelected]["ImgW"];
+                    ChangePieceCount(currentSelected, -1);
+                    break;
+                }
+            }
+        }
+        dontPlace = false;
+
+        // Check if all pieces have been placed
+        let count = 0;
+        for (let i = 0; i < turnPlayerPieces.length; i++)
+        {
+            if (turnPlayerPieces[i].row != -1)
+            {
+                count++;
+            }
+
         }
 
-    }
+        if (count == turnPlayerPieces.length && turn == "w")
+        {
+            PhaseTwo();
+        }
+        else if (count == turnPlayerPieces.length && turn == "b")
+        {
+            turn = "w";
+            count = 0;
+            CreateSafeArea(turn);
 
-    if (count == turnPlayerPieces.length && turn == "w") {
-        PhaseTwo();
+        }
+        else
+        {
+            count = 0;
+        }
     }
-    else if (count == turnPlayerPieces.length && turn == "b")
-    {
-        turn = "w";
-        count = 0;
-        CreateSafeArea(turn);
-        
-    }
-    else {
-        count = 0;
-    }
+    
 }
 
 // Changes the count variable of that piece by -1 or +1
@@ -444,6 +461,18 @@ function ChangePieceCount(pieceName, direction)
 }
 
 
+socket.on("whitePlayer", () =>
+{
+
+    console.log("not turn player");
+
+    // Flip board around
+    gameboard.style.transform = "translate(-50%, -50%) rotate(135deg);";
+
+    //Make white wait until black is done placing
+    myTurn = false;
+});
+
 
 
 // Phase 2: Playing the Game //
@@ -466,6 +495,9 @@ function SwitchTurns()
 
     // Flip turn value
     turn = turn == "w" ? "b" : "w";
+
+    // Set myTurn to its opposite
+    myTurn = !myTurn;
 }
 
 function Unhighlight()
@@ -556,134 +588,140 @@ function PhaseTwo()
  
 function SquareClicked(square)
 {
-    // Get the row and column of the square
-    let col = square.parentElement.parentElement.dataset.col;
-    let row = square.parentElement.dataset.row;
-
-    // Get the turn player pieces
-    let player = getPlayer(square);
-   
-    if (currentSelected == null)
+    if (myTurn)
     {
-        // Check that the clicked piece is the turn player's piece.
-        // If TRUE, call SelectPiece function
-        if (player == turn)
-        {
-            let playerPieces = player == "w" ? playerPieces_w : playerPieces_b;
+        // Get the row and column of the square
+        let col = square.parentElement.parentElement.dataset.col;
+        let row = square.parentElement.dataset.row;
 
-            for (let i = 0; i < playerPieces.length; i++)
+        // Get the turn player pieces
+        let player = getPlayer(square);
+
+        if (currentSelected == null)
+        {
+            // Check that the clicked piece is the turn player's piece.
+            // If TRUE, call SelectPiece function
+            if (player == turn)
             {
-                if (playerPieces[i].row == row && playerPieces[i].col == col)
+                let playerPieces = player == "w" ? playerPieces_w : playerPieces_b;
+
+                for (let i = 0; i < playerPieces.length; i++)
                 {
-                    SelectPiece(square, playerPieces[i]);
+                    if (playerPieces[i].row == row && playerPieces[i].col == col)
+                    {
+                        SelectPiece(square, playerPieces[i]);
+                    }
                 }
             }
         }
-    }
-    else
-    {
-        // Make sure that the square the piece moves to does not have the turn player's piece
-        if (player != turn)
-        {
-            MovePiece(square);
-        }
         else
         {
-            // Only unhighlight if replenish mode is off
-            if (!replenishMode)
-                Unhighlight();
+            // Make sure that the square the piece moves to does not have the turn player's piece
+            if (player != turn)
+            {
+                MovePiece(square);
+            }
+            else
+            {
+                // Only unhighlight if replenish mode is off
+                if (!replenishMode)
+                    Unhighlight();
+            }
+
         }
-            
     }
+    
 }
 
 function SelectPiece(square, piece)
 {
-    currentSelected = piece;
-    square.style.filter = "brightness(50%)";
-
-    // Array with sides that should be restricted because of a piece blocking path
-    let restrictSide = [];
-
-    let inSafeArea = false;
-    for (cSquare of squares)
+    if (myTurn)
     {
-        // Check if the piece selected is currently in safe area
-        if (currentSelected.row == cSquare.parentElement.dataset.row &&
-            currentSelected.col == cSquare.parentElement.parentElement.dataset.col)
+        currentSelected = piece;
+        square.style.filter = "brightness(50%)";
+
+        // Array with sides that should be restricted because of a piece blocking path
+        let restrictSide = [];
+
+        let inSafeArea = false;
+        for (cSquare of squares)
         {
-            if (cSquare.hasAttribute("data-safeArea_w") || cSquare.hasAttribute("data-safeArea_b"))
+            // Check if the piece selected is currently in safe area
+            if (currentSelected.row == cSquare.parentElement.dataset.row &&
+                currentSelected.col == cSquare.parentElement.parentElement.dataset.col)
             {
-                inSafeArea = true;
-            }                
-        }
-    }
-
-
-    let upgrades = getUpgrades(currentSelected.name).length;
-
-    // Highlight all available moving spots
-    for (let i = 1; i <= piecesInfo[currentSelected.name]["MoveAmount"]; i++)
-    {
-        // Check which squares are in the piece's range/restrictions
-        for (let j = 0; j < squares.length; j++)
-        {
-            let col = squares[j].parentElement.parentElement.dataset.col;
-            let row = squares[j].parentElement.dataset.row;
-
-            for (let k = 0; k < piecesInfo[currentSelected.name]["Movement"].length; k++)
-            {        
-                // Check if this side is restricted
-                let sideRestricted = false;
-                for (side of restrictSide)
+                if (cSquare.hasAttribute("data-safeArea_w") || cSquare.hasAttribute("data-safeArea_b"))
                 {
-                    if (side == piecesInfo[currentSelected.name]["Movement"][k])
-                        sideRestricted = true;
+                    inSafeArea = true;
                 }
-                // If a side is restricted, then skip the highlighting of this side, unless they can jump
-                if (sideRestricted && piecesInfo[currentSelected.name]["MoveType"] != "jump")
-                    continue;
+            }
+        }
 
 
-                if (row == Number(currentSelected.row) + (piecesInfo[currentSelected.name]["Movement"][k][0] * i) &&
-                    col == Number(currentSelected.col) + (piecesInfo[currentSelected.name]["Movement"][k][1] * i))
+        let upgrades = getUpgrades(currentSelected.name).length;
+
+        // Highlight all available moving spots
+        for (let i = 1; i <= piecesInfo[currentSelected.name]["MoveAmount"]; i++)
+        {
+            // Check which squares are in the piece's range/restrictions
+            for (let j = 0; j < squares.length; j++)
+            {
+                let col = squares[j].parentElement.parentElement.dataset.col;
+                let row = squares[j].parentElement.dataset.row;
+
+                for (let k = 0; k < piecesInfo[currentSelected.name]["Movement"].length; k++)
                 {
-                    
-                    // Check if the square to be highlighted is a piece
-                    if (squares[j].style.backgroundImage != safeAreaImg &&
-                        squares[j].style.backgroundImage != boardImg &&
-                        squares[j].style.backgroundImage != upgradeImgActive &&
-                        squares[j].style.backgroundImage != upgradeImgUnactive)
+                    // Check if this side is restricted
+                    let sideRestricted = false;
+                    for (side of restrictSide)
                     {
-                        restrictSide.push(piecesInfo[currentSelected.name]["Movement"][k]);
+                        if (side == piecesInfo[currentSelected.name]["Movement"][k])
+                            sideRestricted = true;
                     }
+                    // If a side is restricted, then skip the highlighting of this side, unless they can jump
+                    if (sideRestricted && piecesInfo[currentSelected.name]["MoveType"] != "jump")
+                        continue;
 
-                    // IF a piece is fully upgraded, it cannot move onto an active upgrade square or an unactive upgrade square
-                    // No pieces can move onto an unactive square
-                    if (upgrades != 0 && squares[j].style.backgroundImage != upgradeImgUnactive ||
-                        upgrades == 0 && squares[j].style.backgroundImage != upgradeImgActive &&
-                        squares[j].style.backgroundImage != upgradeImgUnactive)
+
+                    if (row == Number(currentSelected.row) + (piecesInfo[currentSelected.name]["Movement"][k][0] * i) &&
+                        col == Number(currentSelected.col) + (piecesInfo[currentSelected.name]["Movement"][k][1] * i))
                     {
-                        // If this square is not in a safe area
-                        if (!inSafeArea)
+
+                        // Check if the square to be highlighted is a piece
+                        if (squares[j].style.backgroundImage != safeAreaImg &&
+                            squares[j].style.backgroundImage != boardImg &&
+                            squares[j].style.backgroundImage != upgradeImgActive &&
+                            squares[j].style.backgroundImage != upgradeImgUnactive)
                         {
-                            if (squares[j].style.backgroundImage != 'url("Sprites/safe_area.png")')
+                            restrictSide.push(piecesInfo[currentSelected.name]["Movement"][k]);
+                        }
+
+                        // IF a piece is fully upgraded, it cannot move onto an active upgrade square or an unactive upgrade square
+                        // No pieces can move onto an unactive square
+                        if (upgrades != 0 && squares[j].style.backgroundImage != upgradeImgUnactive ||
+                            upgrades == 0 && squares[j].style.backgroundImage != upgradeImgActive &&
+                            squares[j].style.backgroundImage != upgradeImgUnactive)
+                        {
+                            // If this square is not in a safe area
+                            if (!inSafeArea)
+                            {
+                                if (squares[j].style.backgroundImage != 'url("Sprites/safe_area.png")')
+                                {
+                                    squares[j].style.filter = "brightness(150%)";
+                                    squares[j].setAttribute("data-inRange", true);
+                                }
+                            }
+                            else
                             {
                                 squares[j].style.filter = "brightness(150%)";
                                 squares[j].setAttribute("data-inRange", true);
                             }
                         }
-                        else
-                        {
-                            squares[j].style.filter = "brightness(150%)";
-                            squares[j].setAttribute("data-inRange", true);
-                        }
                     }
                 }
             }
         }
     }
-
 }
 
 function MovePiece(square)
