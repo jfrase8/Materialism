@@ -270,6 +270,9 @@ function CreateSafeArea(player)
             document.querySelector(`.option[data-piece="${piece}"]`).style.backgroundImage = piecesInfo[piece]["OptionImg"];
         }
         currentSelected = null;
+
+        // Set myTurn to its opposite
+        //myTurn = !myTurn;
     }
 }
 
@@ -466,6 +469,9 @@ function SwitchTurns()
 
     // Flip turn value
     turn = turn == "w" ? "b" : "w";
+
+    // Set myTurn to its opposite
+    //myTurn = !myTurn;
 }
 
 function Unhighlight()

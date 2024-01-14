@@ -52,7 +52,7 @@ body {
     display: none;
     background-color: lightgray;
     border: 1px solid black;
-    flex: 1 0 33.3333333%;
+    flex: 1 0 25%;
 }
 .lobbyButton:hover {
     background-color: dimgray;

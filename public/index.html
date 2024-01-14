@@ -14,8 +14,9 @@
     <div class="button" data-page="game" onclick="Play()">
         <div class="buttonText">Play</div>
 
-        <button onclick="CreateLobby(event)" class="lobbyButton">Create Lobby</button>
-        <button onclick="DisplayLobbies(event)" class="lobbyButton">Join Lobby</button>
+        <button onclick="LocalGame(event)" class="lobbyButton">Local Game</button>
+        <button onclick="CreateLobby(event)" class="lobbyButton">Create Lobby (Under Development)</button>
+        <button onclick="DisplayLobbies(event)" class="lobbyButton">Join Lobby (Under Development)</button>
         <button onclick="Back(event)" class="lobbyButton">Back</button>
 
 
@@ -31,9 +32,10 @@
 
     </div>
     <br>
-    <div class="button" data-page="tutorial" onclick="Tutorial()">
-        <div class="buttonText">Tutorial</div>
-    </div>
+
+    <!--<div class="button" data-page="tutorial" onclick="Tutorial()">
+        <!--<div class="buttonText">Tutorial (Under Development)</div>
+    </div>-->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
 

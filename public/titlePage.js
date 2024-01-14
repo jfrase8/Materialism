@@ -17,6 +17,10 @@ function Play()
     playButtonText.style.display = "none";
     buttons[0].removeAttribute("onclick");
 }
+function LocalGame()
+{
+    window.location.href = "/game.html";
+}
 function CreateLobby()
 {
     createLobby.style.display = "block";

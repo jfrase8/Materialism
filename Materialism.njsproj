@@ -28,7 +28,6 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="public\serverGame.js" />
     <Content Include="public\clientGame.js" />
     <Content Include="public\game.html">
       <SubType>Code</SubType>
